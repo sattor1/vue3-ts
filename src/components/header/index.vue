@@ -1,7 +1,7 @@
 <template>
   <header class="header__wrapper">
     <div class="header">
-      <h1 @click="$router.push({ path: '/posts' })">Sattor /></h1>
+      <h1 @click="$router.push({ path: '/' })">Sattor /></h1>
       <nav>
         <router-link :to="link.path" v-for="link of links" :key="link.code">{{ link.name }}</router-link>
       </nav>
