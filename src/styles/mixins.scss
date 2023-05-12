@@ -1,0 +1,11 @@
+@mixin font($font, $fontSize, $lineHeight: 'normal') {
+  font-family: $font, serif;
+  font-size: $fontSize;
+  line-height: $lineHeight;
+}
+
+@mixin content-wrapper() {
+  width: 100%;
+  display: flex;
+  justify-content: center;
+}
