@@ -16,7 +16,7 @@ export default defineConfig({
       }
     })
   ],
-  base: '/vue3-ts/',
+  // base: '/vue3-ts/',
   css: {
     preprocessorOptions: {
       scss: {
