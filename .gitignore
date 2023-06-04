@@ -9,9 +9,12 @@ lerna-debug.log*
 
 node_modules
 .DS_Store
-# dist
+dist
 # .env
+.github/workflows
+.vscode
 dist-ssr
+.gitignore
 coverage
 *.local
 
