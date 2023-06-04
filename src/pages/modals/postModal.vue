@@ -37,7 +37,7 @@ const post = ref<Post>()
 const loading = ref(true)
 
 watch(route, async val => {
-  if (val.params?.id) post.value = await fetch.getOnePosts(+route.params.id)
+  if (val.params?.id) post.value = await fetch.getPost(+route.params.id)
   loading.value = false
 })
 </script>
@@ -59,7 +59,7 @@ watch(route, async val => {
     margin-left: 50px;
 
     &-tag {
-      background: #787878;
+      background: $gray;
       padding: 2px 10px;
       border-radius: 40px;
       color: $white;

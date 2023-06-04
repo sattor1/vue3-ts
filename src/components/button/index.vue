@@ -18,7 +18,7 @@ const props = defineProps<{
   border: 1px solid $heavenly;
   padding: 5px 10px;
   outline: none;
-  background: #fff;
+  background: $white;
   cursor: pointer;
   transition: all 500ms ease;
 
@@ -29,13 +29,13 @@ const props = defineProps<{
   }
 }
 .disabled {
-  color: #666666;
-  border: 1px solid #999999;
+  color: $dark-gray;
+  border: 1px solid $gray;
   cursor: default;
 
   &:hover {
-    background: #fff;
-    color: #666666;
+    background: $white;
+    color: $dark-gray;
     border: 1px solid $heavenly;
     pointer-events: none;
   }

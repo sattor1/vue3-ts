@@ -6,8 +6,8 @@
       <div class="main__title">
         <h1>Посты с серверной пагинацией</h1>
         <p>
-          Всего:
-          <strong>{{ pagination.total }}</strong>
+          {{ !isSearching ? 'Всего:' : 'Найдено:' }}
+          <strong>{{ !isSearching ? pagination.total : data.posts.length }}</strong>
         </p>
       </div>
 
@@ -59,7 +59,7 @@ import { ref, onMounted, reactive, watch } from 'vue'
 import { fetchLists } from '@/stores/lists'
 import SPagination from '@/components/pagination/index.vue'
 import Modal from './modals/postModal.vue'
-import { useRoute, useRouter } from 'vue-router'
+import { useRouter } from 'vue-router'
 
 interface Posts {
   id: number
@@ -67,22 +67,23 @@ interface Posts {
   body: string
 }
 const router = useRouter()
-const route = useRoute()
 const fetch = fetchLists()
 const loading = ref(true)
 const data = ref<Posts[]>([])
 const search = ref('')
 const showModal = ref(false)
+const isSearching = ref(false)
 const pagination = reactive({
   limit: 9,
-  offset: 0,
+  skip: 0,
   page: 1,
   total: 0
 })
 
 onMounted(async () => {
+  // ↓ для стягивания полного списка постов
   // data.value = await fetch.allPosts()
-  data.value = await fetch.getLimitPosts(pagination.limit, pagination.offset)
+  data.value = await fetch.getLimitPosts(pagination.limit, pagination.skip)
   pagination.total = data.value.total
   loading.value = false
 })
@@ -90,8 +91,8 @@ onMounted(async () => {
 watch(
   () => pagination.page,
   async page => {
-    const offset = (page - 1) * pagination.limit
-    data.value = await fetch.getLimitPosts(pagination.limit, offset)
+    const skip = (page - 1) * pagination.limit
+    data.value = await fetch.getLimitPosts(pagination.limit, skip)
   },
   { immediate: false, deep: true }
 )
@@ -104,12 +105,15 @@ const openPost = (post: Posts): void => {
   router.push({ name: 'post-item', params: { id: post.id } })
 }
 
-const deletePost = (post: Posts): void => {
-  console.log(post)
+const deletePost = async (post: Posts) => {
+  loading.value = true
+  await fetch.deletePost(post.id)
+  loading.value = false
 }
 const searching = async (str: string) => {
   loading.value = true
   data.value = await fetch.searchPosts(str)
+  isSearching.value = true
   loading.value = false
 }
 const closeModal = () => {
@@ -117,7 +121,10 @@ const closeModal = () => {
   router.push({ name: 'posts' })
 }
 const checkNoResult = async (str: string) => {
-  if (!str) data.value = await fetch.getLimitPosts(pagination.limit, pagination.offset)
+  if (!str) {
+    data.value = await fetch.getLimitPosts(pagination.limit, pagination.skip)
+    isSearching.value = false
+  }
 }
 </script>
 
@@ -143,10 +150,10 @@ const checkNoResult = async (str: string) => {
 
     p {
       @include font('ProximaNova Regular', 16px);
-      color: #666666;
+      color: $dark-gray;
     }
     strong {
-      color: black;
+      color: $black;
     }
   }
   h2 {
@@ -213,7 +220,7 @@ const checkNoResult = async (str: string) => {
       &-buttons {
         display: flex;
         justify-content: flex-start;
-        gap: 20px;
+        gap: 10px;
       }
     }
   }

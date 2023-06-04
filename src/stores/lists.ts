@@ -16,9 +16,9 @@ export const fetchLists = defineStore('posts', {
       }
     },
     // for pagination
-    async getLimitPosts(limit: number, offset: number) {
+    async getLimitPosts(limit: number, skip: number) {
       try {
-        const payload = await axios.get(`https://dummyjson.com/posts?limit=${limit}&skip=${offset}&select=title,body`)
+        const payload = await axios.get(`https://dummyjson.com/posts?limit=${limit}&skip=${skip}&select=title,body`)
         return payload.data
       } catch (err: any) {
         console.error(err.message)
@@ -26,7 +26,7 @@ export const fetchLists = defineStore('posts', {
       }
     },
     // get one post
-    async getOnePosts(id: number) {
+    async getPost(id: number) {
       try {
         const payload = await axios.get(`https://dummyjson.com/posts/${id}`)
         return payload.data
@@ -39,6 +39,16 @@ export const fetchLists = defineStore('posts', {
     async searchPosts(str: string) {
       try {
         const payload = await axios.get(`https://dummyjson.com/posts/search?q=${str}&select=title,body`)
+        return payload.data
+      } catch (err: any) {
+        console.error(err.message)
+        return err
+      }
+    },
+    // delete post
+    async deletePost(id: number) {
+      try {
+        const payload = await axios.delete(`https://dummyjson.com/posts/${id}`)
         return payload.data
       } catch (err: any) {
         console.error(err.message)
