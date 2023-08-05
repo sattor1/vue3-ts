@@ -1,9 +1,9 @@
 <template>
-  <section class="app-main">
+  <main class="app-main">
     <Header />
     <RouterView class="app-main__content" />
     <Footer class="app-main__footer" />
-  </section>
+  </main>
 </template>
 
 <script setup lang="ts">
@@ -17,6 +17,7 @@ import Footer from '@/components/footer/index.vue'
   margin: 0;
   padding: 0;
   box-sizing: border-box;
+  transition-duration: 0.3s;
 }
 
 html,

@@ -1,5 +1,5 @@
 <template>
-  <Preloader :width="200" :height="200" class="post-modal__loading" v-if="loading" />
+  <Preloader :width="150" :height="150" class="post-modal__loading" v-if="loading" />
   <SModal v-else :loading="loading" class="post-modal">
     <template v-slot:header>
       <h1 class="post-modal__title">Пост № {{ post?.id }}</h1>
@@ -34,12 +34,17 @@ interface Post {
 const route = useRoute()
 const fetch = fetchLists()
 const post = ref<Post>()
-const loading = ref(true)
+const loading = ref(false)
 
-watch(route, async val => {
-  if (val.params?.id) post.value = await fetch.getPost(+route.params.id)
-  loading.value = false
-})
+watch(
+  route,
+  async val => {
+    loading.value = true
+    if (val.params?.id) post.value = await fetch.getPost(+route.params.id)
+    loading.value = false
+  },
+  { immediate: true }
+)
 </script>
 <style lang="scss">
 .post-modal {

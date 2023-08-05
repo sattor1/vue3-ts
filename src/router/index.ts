@@ -1,3 +1,4 @@
+import Posts from '@/pages/Posts.vue'
 import MainVue from '@/pages/Main.vue'
 import Table from '@/pages/Table.vue'
 import Calculator from '@/pages/Calculator.vue'
@@ -8,13 +9,18 @@ const router = createRouter({
   routes: [
     {
       path: '/',
+      name: 'main',
+      component: MainVue
+    },
+    {
+      path: '/posts',
       name: 'posts',
-      component: MainVue,
+      component: Posts,
       children: [
         {
           path: '/post/:id',
           name: 'post-item',
-          component: MainVue
+          component: Posts
         }
       ]
     },

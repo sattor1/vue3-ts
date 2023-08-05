@@ -10,6 +10,7 @@
 </template>
 <script setup lang="ts">
 const links = [
+  { name: 'Посты', code: 'posts', path: '/posts' },
   { name: 'Таблица', code: 'table', path: '/table' },
   { name: 'Калькулятор', code: 'calculator', path: '/calculator' }
 ]
@@ -31,6 +32,11 @@ const links = [
   display: flex;
   justify-content: space-between;
   align-items: center;
+  transition: 0.3s;
+
+  @media (max-width: 1153px) {
+    padding: 0 40px;
+  }
 
   h1 {
     @include font('Montserrat Regular', 26px);

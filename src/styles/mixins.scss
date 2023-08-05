@@ -1,4 +1,4 @@
-@mixin font($font, $fontSize, $lineHeight: 'normal') {
+@mixin font($font, $fontSize: 14px, $lineHeight: 'normal') {
   font-family: $font, serif;
   font-size: $fontSize;
   line-height: $lineHeight;

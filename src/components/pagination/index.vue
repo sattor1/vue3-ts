@@ -22,19 +22,19 @@ interface Props {
 }
 
 const props = defineProps<Props>()
-
 const currentPage = ref(props.currentPage)
 const totalPages = ref(props.totalPages)
 
 onMounted(() => {
   if (localStorage.getItem('page')) {
-    currentPage.value = +localStorage.getItem('page')
+    currentPage.value = Number(localStorage.getItem('page'))
     props.onPageChange(currentPage.value)
   }
 })
 
 watch(currentPage, (val: any) => localStorage.setItem('page', val))
 
+// METHODS
 const prevPage = () => {
   if (currentPage.value > 1) {
     currentPage.value--
@@ -49,6 +49,20 @@ const nextPage = () => {
   }
 }
 
+const goToPage = (page: number) => {
+  currentPage.value = page
+  props.onPageChange(currentPage.value)
+}
+
+// COMPUTED
+const showStartEllipsis = computed(() => {
+  return visiblePages.value[0] > 1
+})
+
+const showEndEllipsis = computed(() => {
+  return visiblePages.value[visiblePages.value.length - 1] < totalPages.value
+})
+
 const visiblePages = computed(() => {
   const pages = []
   const startPage = Math.max(1, currentPage.value - 2)
@@ -58,19 +72,6 @@ const visiblePages = computed(() => {
   }
   return pages
 })
-
-const showStartEllipsis = computed(() => {
-  return visiblePages.value[0] > 1
-})
-
-const showEndEllipsis = computed(() => {
-  return visiblePages.value[visiblePages.value.length - 1] < totalPages.value
-})
-
-const goToPage = (page: number) => {
-  currentPage.value = page
-  props.onPageChange(currentPage.value)
-}
 </script>
 
 <style lang="scss">

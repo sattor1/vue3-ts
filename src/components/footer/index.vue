@@ -42,6 +42,12 @@ const links = [
   justify-content: space-between;
   align-items: center;
 
+  transition: 0.3s;
+
+  @media (max-width: 1153px) {
+    padding: 0 40px;
+  }
+
   h1:hover {
     cursor: crosshair;
   }
