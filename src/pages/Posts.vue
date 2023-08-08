@@ -1,9 +1,9 @@
 <template>
-  <section class="section__wrapper">
-    <Preloader :height="200" :width="200" class="section__preloader" v-if="loading" />
+  <section class="posts__wrapper">
+    <Preloader :height="200" :width="200" class="posts__preloader" v-if="loading" />
 
-    <section v-else class="section">
-      <div class="section__title">
+    <div v-else class="posts">
+      <div class="posts__title">
         <h1>Посты с серверной пагинацией</h1>
         <p>
           {{ !isSearching ? 'Всего:' : 'Найдено:' }}
@@ -11,7 +11,7 @@
         </p>
       </div>
 
-      <div class="section__search">
+      <div class="posts__search">
         <SInput
           v-model="search"
           type="text"
@@ -22,8 +22,8 @@
         <SButton :disabled="search.length < 3" @click="searching(search)">Поиск</SButton>
       </div>
 
-      <div v-if="data.posts?.length" class="section__posts">
-        <article v-for="post in data.posts" :key="post.id" class="section__posts__post">
+      <div v-if="data.posts?.length" class="posts__list">
+        <article v-for="post in data.posts" :key="post.id" class="posts__list__post">
           <div>
             <p>
               <strong>Название:</strong>
@@ -35,7 +35,7 @@
             </p>
           </div>
 
-          <div class="section__posts__post-buttons">
+          <div class="posts__list__post-buttons">
             <SButton @click="openPost(post)">Открыть</SButton>
             <SButton @click="deletePost(post)">Удалить</SButton>
           </div>
@@ -49,7 +49,7 @@
         :on-page-change="onPageChange"
         :save-url="{ ...pagination, search }"
       />
-    </section>
+    </div>
 
     <Modal v-if="showModal" @close="closeModal" />
   </section>
@@ -61,8 +61,8 @@ import { fetchLists } from '@/stores/lists'
 import SPagination from '@/components/pagination/index.vue'
 import Modal from './modals/postModal.vue'
 import { useRoute, useRouter } from 'vue-router'
-import urlData from '@/plugins/urlData'
-import text from '@/plugins/text'
+import Url from '@/plugins/urlData'
+import Text from '@/plugins/text'
 
 interface Post {
   id: number
@@ -78,8 +78,8 @@ interface Data {
 const router = useRouter()
 const route = useRoute()
 const fetch = fetchLists()
-const createUrl = urlData.methods?.createUrl
-const maxSymbols = text.methods?.maxSymbols
+const createUrl = new Url().createUrl
+const maxSymbols = new Text().maxSymbols
 const loading = ref(true)
 const data = ref<Data>({
   limit: 0,
@@ -163,7 +163,7 @@ const checkNoResult = async (str: string) => {
 </script>
 
 <style lang="scss">
-.section {
+.posts {
   overflow: hidden;
   height: 100%;
   max-width: 1100px;
@@ -240,7 +240,7 @@ const checkNoResult = async (str: string) => {
     }
   }
 
-  &__posts {
+  &__list {
     display: grid;
     grid-template-columns: repeat(3, 1fr);
     gap: 10px;
@@ -285,4 +285,3 @@ const checkNoResult = async (str: string) => {
   }
 }
 </style>
-@/plugins/urlData@/plugins/text

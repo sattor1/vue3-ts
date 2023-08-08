@@ -52,7 +52,6 @@ const links = [
     a {
       text-decoration: none;
       color: $white;
-      transition: 0.3s;
       &:hover {
         color: $heavenly;
       }

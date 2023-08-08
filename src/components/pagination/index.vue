@@ -2,11 +2,11 @@
   <div class="pagination">
     <SButton :disabled="currentPage === 1" @click="prevPage">←</SButton>
     <SButton v-if="showStartEllipsis" @click="goToPage(1)">1</SButton>
-    <SButton v-if="showStartEllipsis">...</SButton>
+    <SButton class="pagination__ellipsis" v-if="showStartEllipsis">...</SButton>
     <SButton v-for="page in visiblePages" :key="page" :disabled="currentPage === page" @click="goToPage(page)">
       {{ page }}
     </SButton>
-    <SButton v-if="showEndEllipsis">...</SButton>
+    <SButton class="pagination__ellipsis" v-if="showEndEllipsis">...</SButton>
     <SButton v-if="showEndEllipsis" @click="goToPage(totalPages)">{{ totalPages }}</SButton>
     <SButton :disabled="currentPage === totalPages" @click="nextPage">→</SButton>
   </div>
@@ -80,5 +80,9 @@ const visiblePages = computed(() => {
   justify-content: center;
   gap: 13px;
   margin-top: 20px;
+
+  &__ellipsis {
+    pointer-events: none;
+  }
 }
 </style>
